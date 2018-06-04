@@ -12,7 +12,13 @@ export function reducer(state = initialState, action: All): State {
                     email: action.payload.email,
                 },
                 errorMessage: null,
-            }
+            };
+        }
+        case AuthActionTypes.LOGIN_FAILURE: {
+            return {
+                ...state,
+                errorMessage: 'Email ou senha incorreto.'
+            };
         }
         default: {
             return state;

@@ -9,17 +9,25 @@ import { LandingComponent } from './components/landing/landing.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { LogInComponent } from './components/log-in/log-in.component';
 
+// services
+import { AuthService } from './services/auth.service';
+
+// ngrx
+import { AuthEffects } from './store/effects/auth.effects';
+import { EffectsModule } from '@ngrx/effects';
+
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
     SignUpComponent,
-    LogInComponent
+    LogInComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    EffectsModule.forRoot([AuthEffects]),
     RouterModule.forRoot([
       { path: 'log-in', component: LogInComponent },
       { path: 'sign-up', component: SignUpComponent },
@@ -27,7 +35,7 @@ import { LogInComponent } from './components/log-in/log-in.component';
       { path: '**', redirectTo: '/' }
     ])
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

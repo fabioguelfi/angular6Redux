@@ -15,6 +15,8 @@ import { AuthService } from './services/auth.service';
 // ngrx
 import { AuthEffects } from './store/effects/auth.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/app.state';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([AuthEffects]),
     RouterModule.forRoot([
       { path: 'log-in', component: LogInComponent },

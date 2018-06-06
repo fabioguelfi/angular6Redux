@@ -1,5 +1,6 @@
 import { User } from '../models/user';
 import * as auth from './reducers/auth.reducers';
+import { createFeatureSelector } from '@ngrx/store';
 
 export interface State {
     // is a user authenticated?
@@ -25,3 +26,5 @@ export interface AppState {
 export const reducers = {
     auth: auth.reducer
 }
+
+export const selectAuthState = createFeatureSelector<AppState>('auth');

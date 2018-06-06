@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { tap } from 'rxjs/operators';
 
 import { AuthService } from '../../services/auth.service';
-import { LogIn, AuthActionTypes, LogInSuccess, LogInFailure, SignUp, SignUpSuccess, SignUpFailure } from '../actions/auth.actions';
+import { LogIn, AuthActionTypes, LogInSuccess, LogInFailure, SignUp, SignUpSuccess, SignUpFailure, LogOut } from '../actions/auth.actions';
 
 
 @Injectable()
@@ -67,7 +67,7 @@ export class AuthEffects {
           console.log(error)
           return Observable.of(new SignUpFailure({ error: error }));
         })
-    })
+    });
 
   @Effect({ dispatch: false })
   SignUpSuccess: Observable<any> = this.actions.pipe(
@@ -81,6 +81,14 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   SignUpFailure: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.SIGNUP_FAILURE),
+  );
+
+  @Effect()
+  LogOut: Observable<any> = this.actions.pipe(
+    ofType(AuthActionTypes.LOGOUT),
+    tap((user) => {
+      localStorage.removeItem('token');
+    })
   );
 
 }

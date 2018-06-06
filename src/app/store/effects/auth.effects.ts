@@ -59,15 +59,28 @@ export class AuthEffects {
     .map((action: SignUp) => action.payload)
     .switchMap(payload => {
       return this.authService.signUp(payload.email, payload.password)
-      .map((user) => {
-        console.log(user);
-        return new SignUpSuccess({ token: user.token, email: payload.email });
-      })
-      .catch((error) => {
-        console.log(error)
-        return Observable.of(new SignUpFailure({ error: error }));
-      })
+        .map((user) => {
+          console.log(user);
+          return new SignUpSuccess({ token: user.token, email: payload.email });
+        })
+        .catch((error) => {
+          console.log(error)
+          return Observable.of(new SignUpFailure({ error: error }));
+        })
     })
-  
+
+  @Effect({ dispatch: false })
+  SignUpSuccess: Observable<any> = this.actions.pipe(
+    ofType(AuthActionTypes.SIGNUP_SUCCESS),
+    tap((user) => {
+      localStorage.setItem('token', user.payload.token);
+      this.router.navigateByUrl('/');
+    })
+  );
+
+  @Effect({ dispatch: false })
+  SignUpFailure: Observable<any> = this.actions.pipe(
+    ofType(AuthActionTypes.SIGNUP_FAILURE),
+  );
 
 }
